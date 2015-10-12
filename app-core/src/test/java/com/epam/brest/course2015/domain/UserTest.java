@@ -1,4 +1,4 @@
-package com.epam.brest.course2015;
+package com.epam.brest.course2015.domain;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,9 +7,6 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by alexander on 05.10.15.
- */
 public class UserTest {
 
     private User user;
@@ -40,7 +37,7 @@ public class UserTest {
     @Test
     public void testGetCreateDate() throws Exception {
         Date date = new Date(2010, 10, 10);
-        user.setCreateDate(date);
-        assertEquals(date, user.getCreateDate());
+        user.setCreatedDate(date);
+        assertEquals(date, user.getCreatedDate());
     }
 }

@@ -1,15 +1,19 @@
-package com.epam.brest.course2015;
+package com.epam.brest.course2015.domain;
+
 import java.util.Date;
 
-
 /**
- * Created by alexander on 05.10.15.
+ * Created by juga on 5.10.15.
  */
 public class User {
+
     private Integer userId;
+
     private String login;
+
     private String password;
-    private Date createDate;
+
+    private Date createdDate;
 
     public Integer getUserId() {
         return userId;
@@ -35,11 +39,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }
