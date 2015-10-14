@@ -31,4 +31,12 @@ public class UserDaoImplTest {
         User user = userDao.getUserById(1);
         assertNotNull(user);
     }
+
+    @org.junit.Test
+    public void testDeleteUser() throws Exception {
+        List<User> users = userDao.getAllUsers();
+        userDao.deleteUser(1);
+        users = userDao.getAllUsers();
+        assertTrue(users.size() == 1);
+    }
 }

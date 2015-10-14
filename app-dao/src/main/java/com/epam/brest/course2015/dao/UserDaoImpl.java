@@ -25,6 +25,9 @@ public class UserDaoImpl implements UserDao {
     @Value("${user.selectById}")
     private String userSelectById;
 
+    @Value("${user.deleteUser}")
+    private String deleteUser;
+
     private JdbcTemplate jdbcTemplate;
 
     public UserDaoImpl(DataSource dataSource) {
@@ -41,6 +44,13 @@ public class UserDaoImpl implements UserDao {
         LOGGER.info("id: {}", id);
         return jdbcTemplate.queryForObject(userSelectById, new Object[]{id}, new UserRowMapper());
     }
+
+    @Override
+    public void deleteUser(Integer id){
+        LOGGER.info("DELETE user by id: {}", id);
+        jdbcTemplate.update(deleteUser, new Object[]{id});
+    }
+
 
     private class UserRowMapper implements RowMapper<User> {
 
