@@ -1,6 +1,6 @@
 <project>
-
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.epam.brest.course2015</groupId>
     <artifactId>aliaksandr-kandratsiuk</artifactId>
     <name>Simple User Management</name>
@@ -13,7 +13,10 @@
         <module>app-dao</module>
         <module>app-service-api</module>
         <module>app-service</module>
+        <module>app-test</module>
+        <module>app-rest</module>
     </modules>
+
     <distributionManagement>
         <site>
             <id>${project.artifactId}</id>
@@ -21,12 +24,16 @@
             <url>${project.baseUri}</url>
         </site>
     </distributionManagement>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.1</log4j2.version>
         <spring.version>4.2.1.RELEASE</spring.version>
         <hsqldb.version>2.3.3</hsqldb.version>
+        <jackson.databind-version>2.4.3</jackson.databind-version>
+        <easymock.version>3.2</easymock.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -48,11 +55,17 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>app-service-api</artifactId>
                 <version>${project.version}</version>
-                </dependency>
+            </dependency>
             <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>app-service</artifactId>
-            <version>${project.version}</version>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>app-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>app-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -71,6 +84,11 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${spring.version}</version>
                 <scope>test</scope>
@@ -85,6 +103,13 @@
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j2.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind-version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
@@ -96,8 +121,15 @@
                 <version>4.11</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>${easymock.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -128,6 +160,7 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
@@ -222,6 +255,7 @@
             </plugin>
         </plugins>
     </build>
+
     <reporting>
         <excludeDefaults>true</excludeDefaults>
         <outputDirectory>${project.build.directory}/site</outputDirectory>
@@ -252,4 +286,5 @@
             </plugin>
         </plugins>
     </reporting>
+
 </project>
