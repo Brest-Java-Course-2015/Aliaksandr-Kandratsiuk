@@ -1,9 +1,10 @@
 import com.epam.brest.course2015.domain.User;
+import com.epam.brest.course2015.dto.UserDto;
 import com.epam.brest.course2015.rest.UserRestController;
 import com.epam.brest.course2015.rest.VersionController;
 import com.epam.brest.course2015.service.UserService;
-import com.epam.brest.course2104.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.annotation.Resource;
-import javax.jws.soap.SOAPBinding;
 
 import java.util.Arrays;
 
@@ -35,21 +35,24 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-spring-rest-mock.xml"})
 public class UserControllerMockTest {
+
     @Resource
-    private UserRestController userRestController;
+    private UserRestController userController;
+
     private MockMvc mockMvc;
 
     @Autowired
     private UserService userService;
+
     @Before
     public void setUp() {
-        mockMvc = standaloneSetup(userRestController)
+        mockMvc = standaloneSetup(userController)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter())
                 .build();
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         verify(userService);
         reset(userService);
     }
@@ -59,20 +62,20 @@ public class UserControllerMockTest {
         expect(userService.addUser(anyObject(User.class))).andReturn(3);
         replay(userService);
 
-        String user = new ObjectMapper().writeValueAsString(new User("user6","pas6"));
+        String user = new ObjectMapper().writeValueAsString(new User("login2", "password2"));
 
         mockMvc.perform(
-                post("/user/login1/password1")
+                post("/user")
                         .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(user)
         ).andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("3"));
+        .andExpect(status().isCreated())
+        .andExpect(content().string("3"));
     }
 
     @Test
-    public void getAllUsersTest() throws Exception {
+    public void getUsersTest() throws Exception {
         expect(userService.getAllUsers()).andReturn(Arrays.<User>asList(new User("l", "p")));
         replay(userService);
 
@@ -93,21 +96,24 @@ public class UserControllerMockTest {
                 put("/user/5/password5")
                         .accept(MediaType.APPLICATION_JSON)
         ).andDo(print())
-                .andExpect(status().isAccepted());
+                .andExpect(status().isAccepted())
+        .andExpect(content().string(""));
     }
 
     @Test
     public void getUserDto() throws Exception {
         UserDto dto = new UserDto();
-        dto.setUsers(Arrays.<User>asList(new User("l8", "p8"),new User("l9", "p9")));
+        dto.setUsers(Arrays.asList(new User("l1", "p1"), new User("l2", "p2")));
         dto.setTotal(2);
-        expect(userService.getUsetDto()).andReturn(new UserDto());
+        expect(userService.getUserDto()).andReturn(dto);
         replay(userService);
 
         mockMvc.perform(
                 get("/userdto")
                         .accept(MediaType.APPLICATION_JSON)
         ).andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        //.andExpect(content().string(""))
+        ;
     }
 }
